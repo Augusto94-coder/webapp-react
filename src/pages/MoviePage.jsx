@@ -2,7 +2,7 @@
 import axios from "axios"
 
 // import di router-dom per link
-import { Link, useParams, useNavigate } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 // import state e effetc
 import { useState, useEffect } from "react"
@@ -13,8 +13,6 @@ import ReviewBox from "../components/ReviewBox"
 // creazione componente Header
 const MoviePage = () => {
 
-    // creiamo istanza di Navigate
-    const redirect = useNavigate();
 
     // prepariamo var di stato libro
     const [movie, setMovie] = useState();
@@ -28,12 +26,12 @@ const MoviePage = () => {
             .then(response => { setMovie(response.data) })
             .catch(error => {
                 console.log(error)
-                if (error.status === 404) redirect('/404')
+
             })
     }
 
     // faccio partire la chiamata a primo montaggio comp
-    useEffect(fecthMovie, []);
+    useEffect(fecthMovie, [id]);
 
     // funzione di generazione istanze reviews
     const renderReviews = () => {
@@ -46,13 +44,24 @@ const MoviePage = () => {
 
     return (
         <>
-            <header id="movie" className="border-bottom border-1 mb-3">
-                <div className="d-flex mb-3">
-                    <img src={movie?.image} alt={movie?.title} />
+            <header id="movie" className="border-bottom border-1 mb-3 text-center">
+                <div className="d-flex justify-content-center mb-3">
+                    <img
+                        src={movie?.image}
+                        alt={movie?.title}
+                        className="img-fluid rounded shadow"
+                        style={{
+                            width: "100%",
+                            maxWidth: "400px",   // limite massimo, per evitare immagini troppo grandi
+                            height: "auto",       // mantiene il rapporto corretto
+                            objectFit: "cover",   // ritaglia leggermente se serve
+                        }}
+                    />
                 </div>
-                <h1>{movie?.title}</h1>
-                <h3 className="text-muted"><i>By {movie?.author}</i></h3>
-                <p>{movie?.abstract}</p>
+
+                <h1 className="fw-bold">{movie?.title}</h1>
+                <h3 className="text-muted"><i>By {movie?.director}</i></h3>
+                <p className="lead">{movie?.abstract}</p>
             </header>
             <section id="reviews">
                 <header className="d-flex justify-content-between align-items-center mb-4">

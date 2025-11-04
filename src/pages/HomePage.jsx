@@ -24,7 +24,7 @@ const HomePage = () => {
 
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         {movies.map((movie) => (
-          <div key={movie.id} className="col"> 
+          <div key={movie.id} className="col d-flex"> 
           <MovieCard  movieProp={movie}/>
           </div>
         ))}
