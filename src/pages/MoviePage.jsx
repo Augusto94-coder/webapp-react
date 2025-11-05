@@ -10,6 +10,9 @@ import { useState, useEffect } from "react"
 // import comp singola review
 import ReviewBox from "../components/ReviewBox"
 
+//import comp form review
+import ReviewForm from "../components/ReviewForm"
+
 // creazione componente Header
 const MoviePage = () => {
 
@@ -21,7 +24,7 @@ const MoviePage = () => {
     const { id } = useParams();
 
     // prepariamo funzione per la chiamata axios
-    const fecthMovie = () => {
+    const fetchMovie = () => {
         axios.get('http://localhost:3000/api/movie/' + id)
             .then(response => { setMovie(response.data) })
             .catch(error => {
@@ -31,7 +34,7 @@ const MoviePage = () => {
     }
 
     // faccio partire la chiamata a primo montaggio comp
-    useEffect(fecthMovie, [id]);
+    useEffect(fetchMovie, [id]);
 
     // funzione di generazione istanze reviews
     const renderReviews = () => {
@@ -52,9 +55,9 @@ const MoviePage = () => {
                         className="img-fluid rounded shadow"
                         style={{
                             width: "100%",
-                            maxWidth: "400px",   // limite massimo, per evitare immagini troppo grandi
-                            height: "auto",       // mantiene il rapporto corretto
-                            objectFit: "cover",   // ritaglia leggermente se serve
+                            maxWidth: "400px",   
+                            height: "auto",       
+                            objectFit: "cover",   
                         }}
                     />
                 </div>
@@ -69,6 +72,9 @@ const MoviePage = () => {
                     <h5>media voto: {movie?.average_vote}</h5>
                 </header>
                 {renderReviews()}
+            </section>
+            <section>
+                <ReviewForm idProp={id} reloadReviews={fetchMovie} />
             </section>
             <footer className="border-top border-1 pt-2 mb-3 d-flex justify-content-end">
                 <Link className="btn btn-secondary" to="/">Back to home</Link>
