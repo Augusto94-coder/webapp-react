@@ -13,8 +13,12 @@ import ReviewBox from "../components/ReviewBox"
 //import comp form review
 import ReviewForm from "../components/ReviewForm"
 
+import { useGlobal } from "../context/ContextGlobal"
+
 // creazione componente Header
 const MoviePage = () => {
+
+    const { setIsLoading } = useGlobal();
 
 
     // prepariamo var di stato libro
@@ -25,12 +29,14 @@ const MoviePage = () => {
 
     // prepariamo funzione per la chiamata axios
     const fetchMovie = () => {
+        setIsLoading(true);
         axios.get('http://localhost:3000/api/movie/' + id)
             .then(response => { setMovie(response.data) })
             .catch(error => {
                 console.log(error)
 
             })
+            .finally(() => { setIsLoading(false) })
     }
 
     // faccio partire la chiamata a primo montaggio comp

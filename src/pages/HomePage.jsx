@@ -1,16 +1,20 @@
 import MovieCard from "../components/MovieCard";
 import axios from "axios";
 import {useState, useEffect} from "react";
+import { useGlobal } from "../context/ContextGlobal"
 
 const HomePage = () => {
 
+  const { setIsLoading } = useGlobal();
   const [movies, setMovies] = useState([]);
 
   const fetchMovies = () => {
+    setIsLoading(true);
     axios
     .get("http://localhost:3000/api/movie")
     .then((res) => setMovies(res.data))
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err))
+    .finally(() => { setIsLoading(false) })
   };
 
   useEffect(fetchMovies, []);
